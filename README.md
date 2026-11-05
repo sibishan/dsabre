@@ -33,6 +33,34 @@ python ablate_mech_rows.py           # Table IV, mechanism ablation
 Measurements in the paper ran single-threaded on an Apple M2, 16 GB,
 macOS 26.5, under Python 3.13 / Qiskit 2.3 / NetworkX 3.5.
 
+## Running the experiment
+
+The experiment in `code/experiments/` routes the circuits in
+`code/experiments/data/in/` on the devices A–F and their `_alt` versions.
+
+```bash
+pip install -r code/requirements.txt
+cd code/experiments
+python run.py
+```
+
+It runs twice: once on the main devices (A–F) and once on the `_alt` devices.
+Each run writes one file to `code/experiments/data/out/`:
+
+- `dsabre_results_<date>_<time>.json`: main devices
+- `dsabre_results_alt_<date>_<time>.json`: `_alt` devices
+
+For each circuit the file lists every seed's EPR count, SWAP count and
+validity check, plus the best seed.
+
+To change what runs, edit the top of `code/experiments/run.py`:
+
+- `BATCHES`: which circuit folder runs on which device (comment out a row to skip it)
+- `NUM_SEEDS`: how many seeds to try per circuit
+- `RUN_DELAY_S`: pause in seconds between seeds (set to `0` to run faster)
+
+The devices are defined in `code/experiments/arch.py`.
+
 ## What's in the box
 
 ```

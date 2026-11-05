@@ -1,9 +1,12 @@
 import os
+import io
 import sys
 import glob
 import json
 import time
 import random
+import contextlib
+import traceback
 from datetime import datetime
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
@@ -12,35 +15,41 @@ for _p in (os.path.dirname(_HERE), _HERE):   # parent for the router, here for a
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-from qiskit import QuantumCircuit
+from qiskit import QuantumCircuit, qasm3
 from qiskit.converters import circuit_to_dag
 from qiskit.transpiler import PassManager, CouplingMap
 from qiskit.transpiler.passes import RemoveBarriers, SabreLayout
 
-from layout import (adaptive_corner_count, locality_aware_layout,
-                    run_sabre_passes)
+from layout import adaptive_corner_count, locality_aware_layout
 from dsabre_ext import dSABRE_BFSExt
 from config import HardwareConfig
-from arch import build_g_architecture, build_h_architecture, build_i_architecture, build_j_architecture, build_k_architecture, build_l_architecture
+from verify import verify_routing
+from arch import Architecture
 
 OUT_DIR = os.path.join(_HERE, "data/out")
-NUM_SEEDS = 10
+IN_DIR = os.path.join(_HERE, "data/in")
+NUM_SEEDS = 3
+RUN_DELAY_S = 3
 BATCHES = [
-    ("qasm_25", os.path.join(_HERE, "data/in/qasm_25"), build_g_architecture),
-    ("qasm_64", os.path.join(_HERE, "data/in/qasm_64"), build_h_architecture),
-    ("qasmm_100", os.path.join(_HERE, "data/in/qasm_100"), build_i_architecture),
-    ("qasm_160", os.path.join(_HERE, "data/in/qasm_160"), build_j_architecture),
-    ("qasm_200", os.path.join(_HERE, "data/in/qasm_200"), build_k_architecture),
-    ("qasm_360", os.path.join(_HERE, "data/in/qasm_360"), build_l_architecture),
+    ("qasm_25", os.path.join(IN_DIR, "qasm_25"), Architecture.A, Architecture.A_alt),
+    ("qasm_64", os.path.join(IN_DIR, "qasm_64"), Architecture.B, Architecture.B_alt),
+    ("qasm_80", os.path.join(IN_DIR, "qasm_80"), Architecture.C, Architecture.C_alt),
+    ("qasm_95", os.path.join(IN_DIR, "qasm_95"), Architecture.D, Architecture.D_alt),
+    ("qasm_200", os.path.join(IN_DIR, "qasm_200"), Architecture.E, Architecture.E_alt),
+    ("qasm_360", os.path.join(IN_DIR, "qasm_360"), Architecture.F, Architecture.F_alt),
 ]
+# (output-file suffix, index of the arch factory in each BATCHES entry)
+VARIANTS = [("", 2), ("_alt", 3)]
+
+
+def bar(done, total, width=24):
+    filled = int(width * done / total) if total else width
+    return "[" + "#" * filled + "-" * (width - filled) + f"] {done}/{total}"
 
 
 def loader(prefix, done, total, extra=""):
     """Render a single-line progress bar for the current file's runs."""
-    width = 24
-    filled = int(width * done / total) if total else width
-    bar = "#" * filled + "-" * (width - filled)
-    sys.stdout.write(f"\r  {prefix} [{bar}] {done}/{total} {extra}")
+    sys.stdout.write(f"\r\033[K  {prefix} seeds {bar(done, total, 10)} {extra}")
     sys.stdout.flush()
     if done >= total:
         sys.stdout.write("\n")
@@ -58,20 +67,21 @@ def json_safe(obj):
     return str(obj)
 
 
-def reserved_corner_nodes(arch, per_core):
-    """`layout._per_core_reserved_corner_nodes`, minus the comm ports.
+def load_qasm(path):
+    with open(path, "r") as f:
+        for line in f:
+            line = line.strip()
 
-    The library version reserves each core's most-remote minimum-degree
-    vertices as escape slots.  On G and J the inter-core links land ON grid
-    corners, so a core has fewer than `per_core` degree-2 vertices, the
-    library's fallback widens the candidate set by (degree, id), and a comm
-    port -- degree 3, like every grid edge node, and low-numbered -- gets
-    reserved.  Removing a port disconnects the coupling map handed to
-    SabreLayout, which then raises for the 64q circuits and, worse, silently
-    succeeds for the 25q ones on a device picture with no links in it.
-    Excluding ports up front is a no-op on the paper's architectures, whose
-    ports sit on boundary mid-rows and never trip the fallback.
-    """
+            if line.startswith("OPENQASM 3"):
+                return qasm3.load(path)
+
+            if line.startswith("OPENQASM 2"):
+                return QuantumCircuit.from_qasm_file(path)
+
+    raise ValueError(f"Unsupported OpenQASM version: {path}")
+
+
+def reserved_corner_nodes(arch, per_core):
     if per_core <= 0:
         return set()
     ports = set(arch.comm_qubits)
@@ -90,11 +100,6 @@ def reserved_corner_nodes(arch, per_core):
 
 
 def seed_layout(qc, dag, arch, seed):
-    """One initial layout for `seed`: SabreLayout with reserved corners removed.
-
-    Falls back to `locality_aware_layout` if SabreLayout cannot place the
-    circuit, so a seed always yields a layout to route.
-    """
     corners = reserved_corner_nodes(arch, adaptive_corner_count(arch, qc.num_qubits))
     reduced = [n for n in arch.Gr.nodes() if n not in corners]
     idx = {n: i for i, n in enumerate(reduced)}
@@ -117,7 +122,8 @@ def seed_layout(qc, dag, arch, seed):
                 continue
             layout[dag.qubits[bit_index]] = reduced[reduced_idx]
     except Exception:
-        return locality_aware_layout(dag, arch, rng=random.Random(seed))
+        return (locality_aware_layout(dag, arch, rng=random.Random(seed)),
+                "locality (sabre fallback)")
 
     free = [p for p in arch.data_qubits if p not in set(layout.values())]
     random.Random(seed).shuffle(free)
@@ -125,42 +131,58 @@ def seed_layout(qc, dag, arch, seed):
     for lq in dag.qubits:
         if lq not in layout:
             layout[lq] = next(fp)
-    return layout
+    return layout, "sabre"
+
+
+def sabre_passes(router, dag, rev_dag, initial_layout):
+    m1, fwd_final = router.route(dag, initial_layout)
+    if m1["aborted"]:
+        return None
+    m2, rev_final = router.route(rev_dag, fwd_final)
+    layout3 = fwd_final if m2["aborted"] else rev_final
+    m3, final3 = router.route(dag, layout3)
+    if m3["aborted"] or m1["eprs"] <= m3["eprs"]:
+        return m1, initial_layout, fwd_final
+    return m3, layout3, final3
 
 
 def run_dsabre(config, qc, dag, rev_dag, arch, seed):
-    """Route `dag` once from `seed`'s layout, in run_boltsabre's return shape.
-
-    circuit_depth / teleport_depth come back None: this router reports EPR and
-    SWAP counts against a layout, and never materialises a scheduled circuit,
-    so there is no depth to measure without new instrumentation in router.py.
-    """
     router = dSABRE_BFSExt(arch, config)
-    first_layout = seed_layout(qc, dag, arch, seed)
-    metrics = run_sabre_passes(router, dag, rev_dag, first_layout)
-
-    if metrics is None or metrics.get("aborted"):
-        return (0, 0, 0, None, None, 0, first_layout, True, [], [])
-
-    trace = metrics.get("trace") or []
-    return (
-        metrics["ls"],                                    # swap_count
-        metrics.get("teledata", metrics.get("teles", 0)),  # teleportation_count
-        metrics.get("telegates", 0),                      # telegate_count
-        None,                                             # circuit_depth
-        None,                                             # teleport_depth
-        metrics.get("backup_activations", 0) + metrics.get("safe_routes", 0),
-        first_layout,                                     # first_layout
-        False,                                            # solving_deadlock
-        trace,                                            # operations
-        [e for e in trace if e and e[0] in ("TELE", "TGATE")],  # teleport_log
+    first_layout, layout_used = seed_layout(qc, dag, arch, seed)
+    out = sabre_passes(router, dag, rev_dag, first_layout)
+    if out is None:
+        return dict(aborted=True, layout_used=layout_used)
+    metrics, start_layout, final_layout = out
+    return dict(
+        aborted=False,
+        layout_used=layout_used,
+        swaps=metrics["ls"],
+        teleports=metrics.get("teledata", metrics.get("teles", 0)),
+        telegates=metrics.get("telegates", 0),
+        circuit_depth=None,
+        teleport_depth=None,
+        solved_deadlocks=metrics.get("backup_activations", 0) + metrics.get("safe_routes", 0),
+        start_layout=start_layout,
+        final_layout=final_layout,
+        trace=metrics.get("trace") or [],
     )
 
 
-def run_file(qasm_path, config, arch_factory):
-    qc = QuantumCircuit.from_qasm_file(qasm_path)
-    # route() rejects >2-qubit operations, and a barrier spanning every wire
-    # is one, so stripping them is load-bearing rather than cosmetic.
+def run_one(config, qc, dag, rev_dag, arch, seed):
+    log = io.StringIO()
+    t0 = time.perf_counter()
+    try:
+        with contextlib.redirect_stdout(log):
+            result = run_dsabre(config, qc, dag, rev_dag, arch, seed)
+        exc = None
+    except Exception:
+        result, exc = None, traceback.format_exc(limit=3)
+    runtime_s = time.perf_counter() - t0
+    return result, exc, runtime_s
+
+
+def run_file(qasm_path, config, arch_factory, progress=""):
+    qc = load_qasm(qasm_path)
     qc = qc.remove_final_measurements(inplace=False)
     qc = PassManager([RemoveBarriers()]).run(qc)
     dag = circuit_to_dag(qc)
@@ -168,75 +190,110 @@ def run_file(qasm_path, config, arch_factory):
     arch = arch_factory()
 
     name = os.path.basename(qasm_path)
+    tag = f"{progress} {name}" if progress else name
     runs = []
-    start = time.time()
     for i in range(NUM_SEEDS):
-        loader(name, i, NUM_SEEDS, extra="running...")
-        (swap_count, teleportation_count, telegate_count, circuit_depth, teleport_depth,
-        solved_deadlocks, first_layout, solving_deadlock, operations, teleport_log) \
-            = run_dsabre(config, qc, dag, rev_dag, arch, seed=i)
-        runs.append({
-            'seed': i,
-            'swaps': swap_count,
-            'teleports': teleportation_count,
-            'telegates': telegate_count,
-            'circuit_depth': circuit_depth,
-            'teleport_depth': teleport_depth,
-            'solved_deadlocks': solved_deadlocks,
-            'solving_deadlock': solving_deadlock,
-            'num_operations': len(operations),
-            'teleport_log': json_safe(teleport_log),
-            # 'operations': json_safe(operations),
-        })
-    loader(name, NUM_SEEDS, NUM_SEEDS, extra=f"done in {time.time() - start:.1f}s")
+        loader(tag, i, NUM_SEEDS, extra="running...")
+        result, exc, runtime_s = run_one(config, qc, dag, rev_dag, arch, i)
 
-    valid_runs = [r for r in runs if not r['solving_deadlock']]
+        if exc is not None or result['aborted']:
+            runs.append({
+                'seed': i,
+                'layout': result['layout_used'] if result else None,
+                'swaps': None, 'teleports': None, 'telegates': None,
+                'circuit_depth': None, 'teleport_depth': None,
+                'solved_deadlocks': None, 'solving_deadlock': exc is None,
+                'num_operations': 0, 'valid': False,
+                'errors': ([f"exception: {exc.strip().splitlines()[-1]}"] if exc
+                           else ["run aborted (unresolved deadlock)"]),
+                'runtime_s': runtime_s,
+            })
+        else:
+            moves = [e for e in result['trace'] if e and e[0] in ("SWAP", "TELE")]
+            report = verify_routing(dag, arch, result['start_layout'],
+                                    result['final_layout'], moves)
+            runs.append({
+                'seed': i,
+                'layout': result['layout_used'],
+                'swaps': result['swaps'],
+                'teleports': result['teleports'],
+                'telegates': result['telegates'],
+                'circuit_depth': result['circuit_depth'],
+                'teleport_depth': result['teleport_depth'],
+                'solved_deadlocks': result['solved_deadlocks'],
+                'solving_deadlock': False,
+                'num_operations': len(result['trace']),
+                'valid': report.ok,
+                'errors': list(report.failures),
+                'runtime_s': runtime_s,
+            })
+        last = runs[-1]
+        if i + 1 < NUM_SEEDS:
+            loader(tag, i + 1, NUM_SEEDS,
+                   extra=f"seed {i} ({last['layout']}) took {runtime_s:.1f}s")
+            time.sleep(RUN_DELAY_S)
+    loader(tag, NUM_SEEDS, NUM_SEEDS, extra=f"done in {sum(r['runtime_s'] for r in runs):.1f}s")
+
+    valid_runs = [r for r in runs if not r['solving_deadlock'] and r['valid']]
     best = None
     if valid_runs:
-        best = min(valid_runs, key=lambda r: r['teleports'] + r['telegates'])
+        best = min(valid_runs, key=lambda r: (r['teleports'] + r['telegates'], r['swaps']))
 
     return {
         'file': name,
         'path': qasm_path,
+        'arch': arch.name,
         'num_seeds': NUM_SEEDS,
         'best_seed': best['seed'] if best else None,
         'best': {
             'seed': best['seed'],
+            'layout': best['layout'],
             'teleports': best['teleports'],
             'telegates': best['telegates'],
             'inter_core': best['teleports'] + best['telegates'],
             'swaps': best['swaps'],
             'circuit_depth': best['circuit_depth'],
+            'valid': best['valid'],
+            'errors': best['errors'],
+            'runtime_s': best['runtime_s'],
         } if best else None,
         'num_valid_runs': len(valid_runs),
+        'all_valid': all(r['valid'] for r in runs),
+        'sabre_fallbacks': sum(1 for r in runs if "fallback" in str(r['layout'])),
         'runs': runs,
     }
 
 
-def main():
-    os.makedirs(OUT_DIR, exist_ok=True)
-    # telegate=True offers the cat-comm action alongside teledata, so the
-    # telegate column is a measurement rather than a constant 0.  The three
-    # recovery budgets stay None: they are derived per architecture at route()
-    # entry, which is what every driver on the reproduction path passes.
-    config = HardwareConfig(deadlock_limit=None, max_backup_attempts=None,
-                     max_iterations=None)
-
+def run_variant(config, suffix, arch_idx, stamp, pass_no, counter):
+    print(f"===== Pass {pass_no}/{len(VARIANTS)}: dsabre_results{suffix} =====\n")
     batches = []
-    for label, qasm_dir, arch_factory in BATCHES:
+    for entry in BATCHES:
+        label, qasm_dir = entry[0], entry[1]
+        arch_factory = entry[arch_idx]
         qasm_files = sorted(glob.glob(os.path.join(qasm_dir, "*.qasm")))
-        print(f"[{label}] {len(qasm_files)} qasm files in {qasm_dir}\n")
+        print(f"[{label}] {arch_factory.__name__}: {len(qasm_files)} qasm files in {qasm_dir}\n")
 
         results = []
         for path in qasm_files:
-            result = run_file(path, config, arch_factory)
+            counter['done'] += 1
+            progress = (f"P{pass_no}/{len(VARIANTS)} overall "
+                        f"{bar(counter['done'], counter['total'])} |")
+            result = run_file(path, config, arch_factory, progress)
             results.append(result)
             if result['best']:
                 b = result['best']
-                print(f"    best seed={b['seed']}  inter-core={b['inter_core']}  "
-                      f"swaps={b['swaps']}  depth={b['circuit_depth']}")
+                print(f"    best seed={b['seed']} ({b['layout']})  inter-core={b['inter_core']}  "
+                      f"swaps={b['swaps']}  depth={b['circuit_depth']}  valid={b['valid']}")
             else:
-                print("    all runs ended in unresolved deadlock")
+                print("    no valid run (all deadlocked, failed validation or raised)")
+            if result['sabre_fallbacks']:
+                print(f"    WARNING: SabreLayout fell back to locality-aware layout on "
+                      f"{result['sabre_fallbacks']} seed(s)")
+            for r in result['runs']:
+                if r['errors'] and r['errors'][0].startswith("exception"):
+                    print(f"    seed {r['seed']} FAILED: {r['errors'][0]}")
+                elif not r['valid'] and not r['solving_deadlock']:
+                    print(f"    seed {r['seed']} INVALID: {r['errors'][:3]}")
 
         batches.append({
             'batch': label,
@@ -247,15 +304,29 @@ def main():
 
     payload = {
         'generated_at': datetime.now().isoformat(),
+        'variant': suffix.lstrip('_') or 'base',
         'num_seeds': NUM_SEEDS,
+        'layout_protocol': (f"SabreLayout (locality-aware fallback) on all "
+                            f"{NUM_SEEDS} seeds; best by (EPR, SWAPs)"),
+        'config': json_safe(vars(config)),
         'batches': batches,
     }
 
-    out_path = os.path.join(
-        OUT_DIR, f"dsabre_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json")
+    out_path = os.path.join(OUT_DIR, f"dsabre_results{suffix}_{stamp}.json")
     with open(out_path, "w") as f:
         json.dump(payload, f, indent=2)
-    print(f"\nWrote results to {out_path}")
+    print(f"Wrote results to {out_path}\n")
+
+
+def main():
+    os.makedirs(OUT_DIR, exist_ok=True)
+    config = HardwareConfig(deadlock_limit=None, max_backup_attempts=None,
+                            max_iterations=None, trace_routing=True)
+    stamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    files_per_pass = sum(len(glob.glob(os.path.join(d, "*.qasm"))) for _, d, *_ in BATCHES)
+    counter = {'done': 0, 'total': files_per_pass * len(VARIANTS)}
+    for pass_no, (suffix, arch_idx) in enumerate(VARIANTS, 1):
+        run_variant(config, suffix, arch_idx, stamp, pass_no, counter)
 
 
 if __name__ == "__main__":
