@@ -1,8 +1,9 @@
 {
-  "generated_at": "2026-11-05T18:44:35.518298",
+  "generated_at": "2026-11-06T22:08:06.651677",
   "variant": "base",
-  "num_seeds": 3,
-  "layout_protocol": "SabreLayout (locality-aware fallback) on all 3 seeds; best by (EPR, SWAPs)",
+  "circuits_dir": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits",
+  "num_seeds": 5,
+  "layout_protocol": "SabreLayout (locality-aware fallback) on all 5 seeds; best by (EPR, SWAPs)",
   "config": {
     "cost_local_swap": 1.0,
     "cost_teleport": 10.0,
@@ -31,13 +32,13 @@
   "batches": [
     {
       "batch": "qasm_25",
-      "qasm_dir": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_25",
+      "qasm_dir": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_25",
       "results": [
         {
           "file": "ae_nativegates_ibm_qiskit_opt3_25.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_25/ae_nativegates_ibm_qiskit_opt3_25.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_25/ae_nativegates_ibm_qiskit_opt3_25.qasm",
           "arch": "A",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 1,
           "best": {
             "seed": 1,
@@ -49,9 +50,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 0.13530041597550735
+            "runtime_s": 0.1400748749729246
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -68,7 +69,7 @@
               "num_operations": 865,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.14368070801720023
+              "runtime_s": 0.15350499999476597
             },
             {
               "seed": 1,
@@ -83,7 +84,7 @@
               "num_operations": 848,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.13530041597550735
+              "runtime_s": 0.1400748749729246
             },
             {
               "seed": 2,
@@ -98,29 +99,59 @@
               "num_operations": 863,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.13614891696488485
+              "runtime_s": 0.13905666599748656
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 315,
+              "teleports": 22,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 895,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.1399862079997547
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 279,
+              "teleports": 22,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 859,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.13563287496799603
             }
           ]
         },
         {
           "file": "ghz_nativegates_ibm_qiskit_opt3_25.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_25/ghz_nativegates_ibm_qiskit_opt3_25.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_25/ghz_nativegates_ibm_qiskit_opt3_25.qasm",
           "arch": "A",
-          "num_seeds": 3,
-          "best_seed": 0,
+          "num_seeds": 5,
+          "best_seed": 3,
           "best": {
-            "seed": 0,
+            "seed": 3,
             "layout": "sabre",
             "teleports": 1,
             "telegates": 0,
             "inter_core": 1,
-            "swaps": 12,
+            "swaps": 10,
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 0.006015749997459352
+            "runtime_s": 0.004504165961407125
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -137,7 +168,7 @@
               "num_operations": 37,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.006015749997459352
+              "runtime_s": 0.00608962494879961
             },
             {
               "seed": 1,
@@ -152,7 +183,7 @@
               "num_operations": 38,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.005185500020161271
+              "runtime_s": 0.004922792024444789
             },
             {
               "seed": 2,
@@ -167,29 +198,59 @@
               "num_operations": 40,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.0052537909941747785
+              "runtime_s": 0.005239207996055484
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 10,
+              "teleports": 1,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 35,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.004504165961407125
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 11,
+              "teleports": 1,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 36,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.005474374978803098
             }
           ]
         },
         {
           "file": "graphstate_nativegates_ibm_qiskit_opt3_25.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_25/graphstate_nativegates_ibm_qiskit_opt3_25.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_25/graphstate_nativegates_ibm_qiskit_opt3_25.qasm",
           "arch": "A",
-          "num_seeds": 3,
-          "best_seed": 1,
+          "num_seeds": 5,
+          "best_seed": 4,
           "best": {
-            "seed": 1,
+            "seed": 4,
             "layout": "sabre",
             "teleports": 2,
             "telegates": 0,
             "inter_core": 2,
-            "swaps": 11,
+            "swaps": 7,
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 0.006817333051003516
+            "runtime_s": 0.006673750001937151
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -206,7 +267,7 @@
               "num_operations": 49,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.009904625010676682
+              "runtime_s": 0.008504208002705127
             },
             {
               "seed": 1,
@@ -221,7 +282,7 @@
               "num_operations": 38,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.006817333051003516
+              "runtime_s": 0.006931749987415969
             },
             {
               "seed": 2,
@@ -236,15 +297,45 @@
               "num_operations": 46,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.0075403330265544355
+              "runtime_s": 0.00734595803078264
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 18,
+              "teleports": 2,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 45,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.007545124972239137
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 7,
+              "teleports": 2,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 34,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.006673750001937151
             }
           ]
         },
         {
           "file": "qft_nativegates_ibm_qiskit_opt3_25.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_25/qft_nativegates_ibm_qiskit_opt3_25.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_25/qft_nativegates_ibm_qiskit_opt3_25.qasm",
           "arch": "A",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 2,
           "best": {
             "seed": 2,
@@ -256,9 +347,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 0.14821416704216972
+            "runtime_s": 0.14994400000432506
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -275,7 +366,7 @@
               "num_operations": 1005,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.1490204580477439
+              "runtime_s": 0.1466422500088811
             },
             {
               "seed": 1,
@@ -290,7 +381,7 @@
               "num_operations": 983,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.15344933402957395
+              "runtime_s": 0.15065775002585724
             },
             {
               "seed": 2,
@@ -305,29 +396,59 @@
               "num_operations": 969,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.14821416704216972
+              "runtime_s": 0.14994400000432506
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 398,
+              "teleports": 40,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 1018,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.14702516701072454
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 399,
+              "teleports": 36,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 1015,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.15019754198146984
             }
           ]
         },
         {
           "file": "qnn_nativegates_ibm_qiskit_opt3_25.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_25/qnn_nativegates_ibm_qiskit_opt3_25.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_25/qnn_nativegates_ibm_qiskit_opt3_25.qasm",
           "arch": "A",
-          "num_seeds": 3,
-          "best_seed": 0,
+          "num_seeds": 5,
+          "best_seed": 4,
           "best": {
-            "seed": 0,
+            "seed": 4,
             "layout": "sabre",
-            "teleports": 49,
+            "teleports": 47,
             "telegates": 0,
-            "inter_core": 49,
-            "swaps": 746,
+            "inter_core": 47,
+            "swaps": 671,
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 0.2482077080057934
+            "runtime_s": 0.2452128329896368
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -344,7 +465,7 @@
               "num_operations": 2018,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.2482077080057934
+              "runtime_s": 0.250036833982449
             },
             {
               "seed": 1,
@@ -359,7 +480,7 @@
               "num_operations": 1947,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.2400665000313893
+              "runtime_s": 0.23887699999613687
             },
             {
               "seed": 2,
@@ -374,29 +495,59 @@
               "num_operations": 1988,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.24594254099065438
+              "runtime_s": 0.24467479099985212
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 704,
+              "teleports": 50,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 1977,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.2469132500118576
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 671,
+              "teleports": 47,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 1941,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.2452128329896368
             }
           ]
         },
         {
           "file": "random_nativegates_ibm_qiskit_opt3_25.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_25/random_nativegates_ibm_qiskit_opt3_25.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_25/random_nativegates_ibm_qiskit_opt3_25.qasm",
           "arch": "A",
-          "num_seeds": 3,
-          "best_seed": 0,
+          "num_seeds": 5,
+          "best_seed": 3,
           "best": {
-            "seed": 0,
+            "seed": 3,
             "layout": "sabre",
-            "teleports": 184,
+            "teleports": 178,
             "telegates": 0,
-            "inter_core": 184,
-            "swaps": 1420,
+            "inter_core": 178,
+            "swaps": 1317,
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 0.49272854096489027
+            "runtime_s": 0.47757316601928324
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -413,7 +564,7 @@
               "num_operations": 2728,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.49272854096489027
+              "runtime_s": 0.48367099999450147
             },
             {
               "seed": 1,
@@ -428,7 +579,7 @@
               "num_operations": 2676,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.4974794579902664
+              "runtime_s": 0.49190333305159584
             },
             {
               "seed": 2,
@@ -443,7 +594,37 @@
               "num_operations": 2662,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.48259212501579896
+              "runtime_s": 0.48152541602030396
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 1317,
+              "teleports": 178,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 2619,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.47757316601928324
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 1353,
+              "teleports": 183,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 2660,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.5016657499945723
             }
           ]
         }
@@ -451,13 +632,13 @@
     },
     {
       "batch": "qasm_64",
-      "qasm_dir": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_64",
+      "qasm_dir": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_64",
       "results": [
         {
           "file": "ae_nativegates_ibm_qiskit_opt3_64.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_64/ae_nativegates_ibm_qiskit_opt3_64.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_64/ae_nativegates_ibm_qiskit_opt3_64.qasm",
           "arch": "B",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 0,
           "best": {
             "seed": 0,
@@ -469,9 +650,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 0.7087412080145441
+            "runtime_s": 0.7232461249805056
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -488,7 +669,7 @@
               "num_operations": 3401,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.7087412080145441
+              "runtime_s": 0.7232461249805056
             },
             {
               "seed": 1,
@@ -503,7 +684,7 @@
               "num_operations": 3549,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.7326948330155574
+              "runtime_s": 0.710032333037816
             },
             {
               "seed": 2,
@@ -518,15 +699,45 @@
               "num_operations": 3608,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.7156632500118576
+              "runtime_s": 0.7131089169997722
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 1469,
+              "teleports": 95,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 3526,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.6883340409840457
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 1496,
+              "teleports": 97,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 3555,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.7229489999590442
             }
           ]
         },
         {
           "file": "ghz_nativegates_ibm_qiskit_opt3_64.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_64/ghz_nativegates_ibm_qiskit_opt3_64.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_64/ghz_nativegates_ibm_qiskit_opt3_64.qasm",
           "arch": "B",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 0,
           "best": {
             "seed": 0,
@@ -538,9 +749,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 0.017572792014107108
+            "runtime_s": 0.01762275001965463
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -557,7 +768,7 @@
               "num_operations": 95,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.017572792014107108
+              "runtime_s": 0.01762275001965463
             },
             {
               "seed": 1,
@@ -572,7 +783,7 @@
               "num_operations": 103,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.017472708015702665
+              "runtime_s": 0.016872334002982825
             },
             {
               "seed": 2,
@@ -587,29 +798,59 @@
               "num_operations": 102,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.03928020899184048
+              "runtime_s": 0.017166459001600742
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 36,
+              "teleports": 3,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 102,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.01687158300774172
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 33,
+              "teleports": 3,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 99,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.016083042020909488
             }
           ]
         },
         {
           "file": "graphstate_nativegates_ibm_qiskit_opt3_64.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_64/graphstate_nativegates_ibm_qiskit_opt3_64.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_64/graphstate_nativegates_ibm_qiskit_opt3_64.qasm",
           "arch": "B",
-          "num_seeds": 3,
-          "best_seed": 1,
+          "num_seeds": 5,
+          "best_seed": 3,
           "best": {
-            "seed": 1,
+            "seed": 3,
             "layout": "sabre",
-            "teleports": 12,
+            "teleports": 10,
             "telegates": 0,
-            "inter_core": 12,
-            "swaps": 82,
+            "inter_core": 10,
+            "swaps": 74,
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 0.0411137500195764
+            "runtime_s": 0.03396995802177116
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -626,7 +867,7 @@
               "num_operations": 169,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.053158166992943734
+              "runtime_s": 0.04439004202140495
             },
             {
               "seed": 1,
@@ -641,7 +882,7 @@
               "num_operations": 158,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.0411137500195764
+              "runtime_s": 0.09497187501983717
             },
             {
               "seed": 2,
@@ -656,15 +897,45 @@
               "num_operations": 185,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.0441794169601053
+              "runtime_s": 0.04573525005253032
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 74,
+              "teleports": 10,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 148,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.03396995802177116
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 86,
+              "teleports": 10,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 160,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.03722787502920255
             }
           ]
         },
         {
           "file": "qft_nativegates_ibm_qiskit_opt3_64.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_64/qft_nativegates_ibm_qiskit_opt3_64.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_64/qft_nativegates_ibm_qiskit_opt3_64.qasm",
           "arch": "B",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 0,
           "best": {
             "seed": 0,
@@ -676,9 +947,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 0.7714486250188202
+            "runtime_s": 0.7582055000239052
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -695,7 +966,7 @@
               "num_operations": 3626,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.7714486250188202
+              "runtime_s": 0.7582055000239052
             },
             {
               "seed": 1,
@@ -710,7 +981,7 @@
               "num_operations": 3736,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.7508320829947479
+              "runtime_s": 0.7358789169811644
             },
             {
               "seed": 2,
@@ -725,29 +996,59 @@
               "num_operations": 3796,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.7415012919809669
+              "runtime_s": 0.7929276670329273
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 1642,
+              "teleports": 123,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 3731,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.8658327080192976
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 1752,
+              "teleports": 112,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 3830,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.7748425840400159
             }
           ]
         },
         {
           "file": "qnn_nativegates_ibm_qiskit_opt3_64.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_64/qnn_nativegates_ibm_qiskit_opt3_64.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_64/qnn_nativegates_ibm_qiskit_opt3_64.qasm",
           "arch": "B",
-          "num_seeds": 3,
-          "best_seed": 0,
+          "num_seeds": 5,
+          "best_seed": 4,
           "best": {
-            "seed": 0,
+            "seed": 4,
             "layout": "sabre",
-            "teleports": 251,
+            "teleports": 243,
             "telegates": 0,
-            "inter_core": 251,
-            "swaps": 5586,
+            "inter_core": 243,
+            "swaps": 5326,
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 2.107445166038815
+            "runtime_s": 2.144800792040769
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -764,7 +1065,7 @@
               "num_operations": 13963,
               "valid": true,
               "errors": [],
-              "runtime_s": 2.107445166038815
+              "runtime_s": 2.1068361249635927
             },
             {
               "seed": 1,
@@ -779,7 +1080,7 @@
               "num_operations": 13537,
               "valid": true,
               "errors": [],
-              "runtime_s": 2.2363674999796785
+              "runtime_s": 2.101538165996317
             },
             {
               "seed": 2,
@@ -794,15 +1095,45 @@
               "num_operations": 13556,
               "valid": true,
               "errors": [],
-              "runtime_s": 2.137609082972631
+              "runtime_s": 2.0940464999875985
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 5633,
+              "teleports": 251,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 14010,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 2.1743664579698816
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 5326,
+              "teleports": 243,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 13695,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 2.144800792040769
             }
           ]
         },
         {
           "file": "random_nativegates_ibm_qiskit_opt3_64.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_64/random_nativegates_ibm_qiskit_opt3_64.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_64/random_nativegates_ibm_qiskit_opt3_64.qasm",
           "arch": "B",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 2,
           "best": {
             "seed": 2,
@@ -814,9 +1145,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 1.391466874978505
+            "runtime_s": 1.45046474999981
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -833,7 +1164,7 @@
               "num_operations": 6405,
               "valid": true,
               "errors": [],
-              "runtime_s": 1.4165458750212565
+              "runtime_s": 1.4111608329694718
             },
             {
               "seed": 1,
@@ -848,7 +1179,7 @@
               "num_operations": 6572,
               "valid": true,
               "errors": [],
-              "runtime_s": 1.397380415990483
+              "runtime_s": 1.4025090420036577
             },
             {
               "seed": 2,
@@ -863,7 +1194,37 @@
               "num_operations": 6470,
               "valid": true,
               "errors": [],
-              "runtime_s": 1.391466874978505
+              "runtime_s": 1.45046474999981
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 4398,
+              "teleports": 514,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 2,
+              "solving_deadlock": false,
+              "num_operations": 6539,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 1.4189152500475757
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 4297,
+              "teleports": 501,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 6425,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 1.3880212089861743
             }
           ]
         }
@@ -871,13 +1232,13 @@
     },
     {
       "batch": "qasm_80",
-      "qasm_dir": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_80",
+      "qasm_dir": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_80",
       "results": [
         {
           "file": "ae_nativegates_ibm_qiskit_opt3_80.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_80/ae_nativegates_ibm_qiskit_opt3_80.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_80/ae_nativegates_ibm_qiskit_opt3_80.qasm",
           "arch": "C",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 0,
           "best": {
             "seed": 0,
@@ -889,9 +1250,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 0.8216555830440484
+            "runtime_s": 0.8182522499701008
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -908,7 +1269,7 @@
               "num_operations": 4414,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.8216555830440484
+              "runtime_s": 0.8182522499701008
             },
             {
               "seed": 1,
@@ -923,7 +1284,7 @@
               "num_operations": 4339,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.8046391669777222
+              "runtime_s": 0.7919881250127219
             },
             {
               "seed": 2,
@@ -938,15 +1299,45 @@
               "num_operations": 4628,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.8061243339907378
+              "runtime_s": 0.8106525000184774
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 1888,
+              "teleports": 114,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 4540,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.8001859579817392
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 1952,
+              "teleports": 114,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 4604,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.8017545839538798
             }
           ]
         },
         {
           "file": "qft_nativegates_ibm_qiskit_opt3_80.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_80/qft_nativegates_ibm_qiskit_opt3_80.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_80/qft_nativegates_ibm_qiskit_opt3_80.qasm",
           "arch": "C",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 1,
           "best": {
             "seed": 1,
@@ -958,9 +1349,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 0.9210051249829121
+            "runtime_s": 0.9142736669746228
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -977,7 +1368,7 @@
               "num_operations": 4832,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.9602263339911588
+              "runtime_s": 0.9377126659965143
             },
             {
               "seed": 1,
@@ -992,7 +1383,7 @@
               "num_operations": 4708,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.9210051249829121
+              "runtime_s": 0.9142736669746228
             },
             {
               "seed": 2,
@@ -1007,15 +1398,45 @@
               "num_operations": 5223,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.9157196249580011
+              "runtime_s": 0.9056374169886112
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 2163,
+              "teleports": 145,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 4842,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.9442173749557696
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 2187,
+              "teleports": 141,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 4862,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.918507791007869
             }
           ]
         },
         {
           "file": "qnn_nativegates_ibm_qiskit_opt3_80.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_80/qnn_nativegates_ibm_qiskit_opt3_80.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_80/qnn_nativegates_ibm_qiskit_opt3_80.qasm",
           "arch": "C",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 0,
           "best": {
             "seed": 0,
@@ -1027,9 +1448,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 2.9756484999670647
+            "runtime_s": 2.9806861670222133
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -1046,7 +1467,7 @@
               "num_operations": 22171,
               "valid": true,
               "errors": [],
-              "runtime_s": 2.9756484999670647
+              "runtime_s": 2.9806861670222133
             },
             {
               "seed": 1,
@@ -1061,7 +1482,7 @@
               "num_operations": 21795,
               "valid": true,
               "errors": [],
-              "runtime_s": 2.960637542011682
+              "runtime_s": 2.9109901660121977
             },
             {
               "seed": 2,
@@ -1076,15 +1497,45 @@
               "num_operations": 21521,
               "valid": true,
               "errors": [],
-              "runtime_s": 3.0156815420486964
+              "runtime_s": 2.9294916249928065
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 8598,
+              "teleports": 318,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 21634,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 2.8813837919733487
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 8772,
+              "teleports": 318,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 21808,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 2.9926680409698747
             }
           ]
         },
         {
           "file": "qpeexact_nativegates_ibm_qiskit_opt3_80.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_80/qpeexact_nativegates_ibm_qiskit_opt3_80.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_80/qpeexact_nativegates_ibm_qiskit_opt3_80.qasm",
           "arch": "C",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 2,
           "best": {
             "seed": 2,
@@ -1096,9 +1547,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 1.0686414589872584
+            "runtime_s": 0.7956298749777488
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -1115,7 +1566,7 @@
               "num_operations": 5320,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.8293710839934647
+              "runtime_s": 0.8199247500160709
             },
             {
               "seed": 1,
@@ -1130,7 +1581,7 @@
               "num_operations": 5557,
               "valid": true,
               "errors": [],
-              "runtime_s": 0.8816002499661408
+              "runtime_s": 0.846395083994139
             },
             {
               "seed": 2,
@@ -1145,15 +1596,45 @@
               "num_operations": 4969,
               "valid": true,
               "errors": [],
-              "runtime_s": 1.0686414589872584
+              "runtime_s": 0.7956298749777488
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 2206,
+              "teleports": 152,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 5012,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.7830620000022464
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 2136,
+              "teleports": 144,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 4934,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 0.7694265409954824
             }
           ]
         },
         {
           "file": "random_nativegates_ibm_qiskit_opt3_80.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_80/random_nativegates_ibm_qiskit_opt3_80.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_80/random_nativegates_ibm_qiskit_opt3_80.qasm",
           "arch": "C",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 2,
           "best": {
             "seed": 2,
@@ -1165,9 +1646,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 11.764443457999732
+            "runtime_s": 11.483417415991426
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -1184,7 +1665,7 @@
               "num_operations": 58678,
               "valid": true,
               "errors": [],
-              "runtime_s": 12.316148666955996
+              "runtime_s": 11.320651667017955
             },
             {
               "seed": 1,
@@ -1199,7 +1680,7 @@
               "num_operations": 58523,
               "valid": true,
               "errors": [],
-              "runtime_s": 11.941302250023
+              "runtime_s": 11.336917999957222
             },
             {
               "seed": 2,
@@ -1214,15 +1695,45 @@
               "num_operations": 57946,
               "valid": true,
               "errors": [],
-              "runtime_s": 11.764443457999732
+              "runtime_s": 11.483417415991426
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 41433,
+              "teleports": 4208,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 58699,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 11.24710891599534
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 41683,
+              "teleports": 4281,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 59022,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 11.484094416024163
             }
           ]
         },
         {
           "file": "su2random_nativegates_ibm_qiskit_opt3_80.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_80/su2random_nativegates_ibm_qiskit_opt3_80.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_80/su2random_nativegates_ibm_qiskit_opt3_80.qasm",
           "arch": "C",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 1,
           "best": {
             "seed": 1,
@@ -1234,9 +1745,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 3.531171042006463
+            "runtime_s": 3.324666792002972
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -1253,7 +1764,7 @@
               "num_operations": 22626,
               "valid": true,
               "errors": [],
-              "runtime_s": 3.5711752920178697
+              "runtime_s": 3.4706589579582214
             },
             {
               "seed": 1,
@@ -1268,7 +1779,7 @@
               "num_operations": 22520,
               "valid": true,
               "errors": [],
-              "runtime_s": 3.531171042006463
+              "runtime_s": 3.324666792002972
             },
             {
               "seed": 2,
@@ -1283,7 +1794,37 @@
               "num_operations": 22669,
               "valid": true,
               "errors": [],
-              "runtime_s": 3.500235125015024
+              "runtime_s": 3.3150235830107704
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 12548,
+              "teleports": 479,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 22507,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 3.339910500042606
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 13233,
+              "teleports": 474,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 23187,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 3.382063042023219
             }
           ]
         }
@@ -1291,27 +1832,27 @@
     },
     {
       "batch": "qasm_95",
-      "qasm_dir": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_95",
+      "qasm_dir": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_95",
       "results": [
         {
           "file": "qft_nativegates_ibm_qiskit_opt3_95.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_95/qft_nativegates_ibm_qiskit_opt3_95.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_95/qft_nativegates_ibm_qiskit_opt3_95.qasm",
           "arch": "D",
-          "num_seeds": 3,
-          "best_seed": 1,
+          "num_seeds": 5,
+          "best_seed": 4,
           "best": {
-            "seed": 1,
+            "seed": 4,
             "layout": "sabre",
-            "teleports": 219,
+            "teleports": 191,
             "telegates": 0,
-            "inter_core": 219,
-            "swaps": 2646,
+            "inter_core": 191,
+            "swaps": 2683,
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 1.2195448749698699
+            "runtime_s": 1.121174790954683
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -1328,7 +1869,7 @@
               "num_operations": 6583,
               "valid": true,
               "errors": [],
-              "runtime_s": 1.1293980830232613
+              "runtime_s": 1.154316750005819
             },
             {
               "seed": 1,
@@ -1343,7 +1884,7 @@
               "num_operations": 6095,
               "valid": true,
               "errors": [],
-              "runtime_s": 1.2195448749698699
+              "runtime_s": 1.1625072919996455
             },
             {
               "seed": 2,
@@ -1358,15 +1899,45 @@
               "num_operations": 6543,
               "valid": true,
               "errors": [],
-              "runtime_s": 1.17912779195467
+              "runtime_s": 1.1460505420109257
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 3372,
+              "teleports": 268,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 18,
+              "solving_deadlock": false,
+              "num_operations": 6870,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 1.2996755000203848
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 2683,
+              "teleports": 191,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 0,
+              "solving_deadlock": false,
+              "num_operations": 6104,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 1.121174790954683
             }
           ]
         },
         {
           "file": "qpeexact_nativegates_ibm_qiskit_opt3_95.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_95/qpeexact_nativegates_ibm_qiskit_opt3_95.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_95/qpeexact_nativegates_ibm_qiskit_opt3_95.qasm",
           "arch": "D",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 0,
           "best": {
             "seed": 0,
@@ -1378,9 +1949,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 1.1487080410006456
+            "runtime_s": 1.1608300830121152
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -1397,7 +1968,7 @@
               "num_operations": 6074,
               "valid": true,
               "errors": [],
-              "runtime_s": 1.1487080410006456
+              "runtime_s": 1.1608300830121152
             },
             {
               "seed": 1,
@@ -1412,7 +1983,7 @@
               "num_operations": 7501,
               "valid": true,
               "errors": [],
-              "runtime_s": 1.5471036250237375
+              "runtime_s": 1.502205916971434
             },
             {
               "seed": 2,
@@ -1427,7 +1998,37 @@
               "num_operations": 7082,
               "valid": true,
               "errors": [],
-              "runtime_s": 1.3612161669880152
+              "runtime_s": 1.2758571250014938
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 3528,
+              "teleports": 327,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 16,
+              "solving_deadlock": false,
+              "num_operations": 7235,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 1.4297812500153668
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 3554,
+              "teleports": 289,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 14,
+              "solving_deadlock": false,
+              "num_operations": 7223,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 1.374927332974039
             }
           ]
         }
@@ -1435,13 +2036,13 @@
     },
     {
       "batch": "qasm_200",
-      "qasm_dir": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_200",
+      "qasm_dir": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_200",
       "results": [
         {
           "file": "qft_nativegates_ibm_qiskit_opt3_200.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_200/qft_nativegates_ibm_qiskit_opt3_200.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_200/qft_nativegates_ibm_qiskit_opt3_200.qasm",
           "arch": "E",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 1,
           "best": {
             "seed": 1,
@@ -1453,9 +2054,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 3.5850782920024358
+            "runtime_s": 3.547396249952726
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -1472,7 +2073,7 @@
               "num_operations": 17623,
               "valid": true,
               "errors": [],
-              "runtime_s": 4.245523834018968
+              "runtime_s": 4.153220332984347
             },
             {
               "seed": 1,
@@ -1487,7 +2088,7 @@
               "num_operations": 15861,
               "valid": true,
               "errors": [],
-              "runtime_s": 3.5850782920024358
+              "runtime_s": 3.547396249952726
             },
             {
               "seed": 2,
@@ -1502,29 +2103,59 @@
               "num_operations": 17037,
               "valid": true,
               "errors": [],
-              "runtime_s": 4.264169542002492
+              "runtime_s": 4.236196624988224
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 8286,
+              "teleports": 623,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 18,
+              "solving_deadlock": false,
+              "num_operations": 16129,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 4.662581791984849
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 9502,
+              "teleports": 759,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 40,
+              "solving_deadlock": false,
+              "num_operations": 17481,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 4.8884613330010325
             }
           ]
         },
         {
           "file": "qpeexact_nativegates_ibm_qiskit_opt3_200.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_200/qpeexact_nativegates_ibm_qiskit_opt3_200.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_200/qpeexact_nativegates_ibm_qiskit_opt3_200.qasm",
           "arch": "E",
-          "num_seeds": 3,
-          "best_seed": 2,
+          "num_seeds": 5,
+          "best_seed": 4,
           "best": {
-            "seed": 2,
+            "seed": 4,
             "layout": "sabre",
-            "teleports": 660,
+            "teleports": 608,
             "telegates": 0,
-            "inter_core": 660,
-            "swaps": 8836,
+            "inter_core": 608,
+            "swaps": 8641,
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 4.7366119580110535
+            "runtime_s": 3.8549987910082564
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -1541,7 +2172,7 @@
               "num_operations": 18356,
               "valid": true,
               "errors": [],
-              "runtime_s": 5.767585167021025
+              "runtime_s": 5.195116250019055
             },
             {
               "seed": 1,
@@ -1556,7 +2187,7 @@
               "num_operations": 17572,
               "valid": true,
               "errors": [],
-              "runtime_s": 4.97933441697387
+              "runtime_s": 4.779727999994066
             },
             {
               "seed": 2,
@@ -1571,7 +2202,37 @@
               "num_operations": 17075,
               "valid": true,
               "errors": [],
-              "runtime_s": 4.7366119580110535
+              "runtime_s": 4.308463833003771
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 9677,
+              "teleports": 688,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 24,
+              "solving_deadlock": false,
+              "num_operations": 17944,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 4.1606401249882765
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 8641,
+              "teleports": 608,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 14,
+              "solving_deadlock": false,
+              "num_operations": 16828,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 3.8549987910082564
             }
           ]
         }
@@ -1579,13 +2240,13 @@
     },
     {
       "batch": "qasm_360",
-      "qasm_dir": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_360",
+      "qasm_dir": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_360",
       "results": [
         {
           "file": "qft_nativegates_ibm_qiskit_opt3_360.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_360/qft_nativegates_ibm_qiskit_opt3_360.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_360/qft_nativegates_ibm_qiskit_opt3_360.qasm",
           "arch": "F",
-          "num_seeds": 3,
+          "num_seeds": 5,
           "best_seed": 0,
           "best": {
             "seed": 0,
@@ -1597,9 +2258,9 @@
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 15.32828066701768
+            "runtime_s": 15.077433290949557
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -1616,7 +2277,7 @@
               "num_operations": 31281,
               "valid": true,
               "errors": [],
-              "runtime_s": 15.32828066701768
+              "runtime_s": 15.077433290949557
             },
             {
               "seed": 1,
@@ -1631,7 +2292,7 @@
               "num_operations": 33370,
               "valid": true,
               "errors": [],
-              "runtime_s": 16.577965000004042
+              "runtime_s": 16.735412375011947
             },
             {
               "seed": 2,
@@ -1646,29 +2307,59 @@
               "num_operations": 33618,
               "valid": true,
               "errors": [],
-              "runtime_s": 17.243481541983783
+              "runtime_s": 16.521679084049538
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 18265,
+              "teleports": 1448,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 52,
+              "solving_deadlock": false,
+              "num_operations": 33013,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 16.236958125024103
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 16862,
+              "teleports": 1270,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 42,
+              "solving_deadlock": false,
+              "num_operations": 31432,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 15.536537625011988
             }
           ]
         },
         {
           "file": "qpeexact_nativegates_ibm_qiskit_opt3_360.qasm",
-          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/qasm_360/qpeexact_nativegates_ibm_qiskit_opt3_360.qasm",
+          "path": "/Users/sibishanr/Desktop/2026 Spring/honours/dsabre/code/experiments/data/in/circuits/qasm_360/qpeexact_nativegates_ibm_qiskit_opt3_360.qasm",
           "arch": "F",
-          "num_seeds": 3,
-          "best_seed": 1,
+          "num_seeds": 5,
+          "best_seed": 4,
           "best": {
-            "seed": 1,
+            "seed": 4,
             "layout": "sabre",
-            "teleports": 1492,
+            "teleports": 1420,
             "telegates": 0,
-            "inter_core": 1492,
-            "swaps": 18425,
+            "inter_core": 1420,
+            "swaps": 16125,
             "circuit_depth": null,
             "valid": true,
             "errors": [],
-            "runtime_s": 26.860379290999845
+            "runtime_s": 24.745970249990933
           },
-          "num_valid_runs": 3,
+          "num_valid_runs": 5,
           "all_valid": true,
           "sabre_fallbacks": 0,
           "runs": [
@@ -1685,7 +2376,7 @@
               "num_operations": 34599,
               "valid": true,
               "errors": [],
-              "runtime_s": 24.04133899998851
+              "runtime_s": 23.540701416961383
             },
             {
               "seed": 1,
@@ -1700,7 +2391,7 @@
               "num_operations": 33896,
               "valid": true,
               "errors": [],
-              "runtime_s": 26.860379290999845
+              "runtime_s": 26.0277214589878
             },
             {
               "seed": 2,
@@ -1715,7 +2406,37 @@
               "num_operations": 35513,
               "valid": true,
               "errors": [],
-              "runtime_s": 21.44656541600125
+              "runtime_s": 20.717878750001546
+            },
+            {
+              "seed": 3,
+              "layout": "sabre",
+              "swaps": 16657,
+              "teleports": 1459,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 40,
+              "solving_deadlock": false,
+              "num_operations": 32095,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 24.470887291012332
+            },
+            {
+              "seed": 4,
+              "layout": "sabre",
+              "swaps": 16125,
+              "teleports": 1420,
+              "telegates": 0,
+              "circuit_depth": null,
+              "teleport_depth": null,
+              "solved_deadlocks": 52,
+              "solving_deadlock": false,
+              "num_operations": 31524,
+              "valid": true,
+              "errors": [],
+              "runtime_s": 24.745970249990933
             }
           ]
         }

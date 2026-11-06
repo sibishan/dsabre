@@ -11,7 +11,7 @@ from datetime import datetime
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.setrecursionlimit(50000)
-for _p in (os.path.dirname(_HERE), _HERE):   # parent for the router, here for arch
+for _p in (os.path.dirname(_HERE), _HERE):
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
@@ -21,6 +21,7 @@ from qiskit.transpiler import PassManager, CouplingMap
 from qiskit.transpiler.passes import RemoveBarriers, SabreLayout
 
 from layout import adaptive_corner_count, locality_aware_layout
+from router import General_dSABRE_Router
 from dsabre_ext import dSABRE_BFSExt
 from config import HardwareConfig
 from verify import verify_routing
@@ -28,18 +29,22 @@ from arch import Architecture
 
 OUT_DIR = os.path.join(_HERE, "data/out")
 IN_DIR = os.path.join(_HERE, "data/in")
-NUM_SEEDS = 3
-RUN_DELAY_S = 3
+NUM_SEEDS = 5
+RUN_DELAY_S = 0
+# (batch label, architecture factory); each label is a subfolder of every circuit set
 BATCHES = [
-    ("qasm_25", os.path.join(IN_DIR, "qasm_25"), Architecture.A, Architecture.A_alt),
-    ("qasm_64", os.path.join(IN_DIR, "qasm_64"), Architecture.B, Architecture.B_alt),
-    ("qasm_80", os.path.join(IN_DIR, "qasm_80"), Architecture.C, Architecture.C_alt),
-    ("qasm_95", os.path.join(IN_DIR, "qasm_95"), Architecture.D, Architecture.D_alt),
-    ("qasm_200", os.path.join(IN_DIR, "qasm_200"), Architecture.E, Architecture.E_alt),
-    ("qasm_360", os.path.join(IN_DIR, "qasm_360"), Architecture.F, Architecture.F_alt),
+    ("qasm_25", Architecture.A),
+    ("qasm_64", Architecture.B),
+    ("qasm_80", Architecture.C),
+    ("qasm_95", Architecture.D),
+    ("qasm_200", Architecture.E),
+    ("qasm_360", Architecture.F),
 ]
-# (output-file suffix, index of the arch factory in each BATCHES entry)
-VARIANTS = [("", 2), ("_alt", 3)]
+# (output-file suffix, circuit-set directory), run in this order
+VARIANTS = [
+    ("", os.path.join(IN_DIR, "circuits")),
+    ("_alt", os.path.join(IN_DIR, "circuits_alt")),
+]
 
 
 def bar(done, total, width=24):
@@ -147,6 +152,7 @@ def sabre_passes(router, dag, rev_dag, initial_layout):
 
 
 def run_dsabre(config, qc, dag, rev_dag, arch, seed):
+    # router = General_dSABRE_Router(arch, config)
     router = dSABRE_BFSExt(arch, config)
     first_layout, layout_used = seed_layout(qc, dag, arch, seed)
     out = sabre_passes(router, dag, rev_dag, first_layout)
@@ -264,12 +270,12 @@ def run_file(qasm_path, config, arch_factory, progress=""):
     }
 
 
-def run_variant(config, suffix, arch_idx, stamp, pass_no, counter):
-    print(f"===== Pass {pass_no}/{len(VARIANTS)}: dsabre_results{suffix} =====\n")
+def run_variant(config, suffix, circuits_dir, stamp, pass_no, counter):
+    print(f"===== Pass {pass_no}/{len(VARIANTS)}: dsabre_results{suffix} "
+          f"({circuits_dir}) =====\n")
     batches = []
-    for entry in BATCHES:
-        label, qasm_dir = entry[0], entry[1]
-        arch_factory = entry[arch_idx]
+    for label, arch_factory in BATCHES:
+        qasm_dir = os.path.join(circuits_dir, label)
         qasm_files = sorted(glob.glob(os.path.join(qasm_dir, "*.qasm")))
         print(f"[{label}] {arch_factory.__name__}: {len(qasm_files)} qasm files in {qasm_dir}\n")
 
@@ -305,6 +311,7 @@ def run_variant(config, suffix, arch_idx, stamp, pass_no, counter):
     payload = {
         'generated_at': datetime.now().isoformat(),
         'variant': suffix.lstrip('_') or 'base',
+        'circuits_dir': circuits_dir,
         'num_seeds': NUM_SEEDS,
         'layout_protocol': (f"SabreLayout (locality-aware fallback) on all "
                             f"{NUM_SEEDS} seeds; best by (EPR, SWAPs)"),
@@ -323,10 +330,11 @@ def main():
     config = HardwareConfig(deadlock_limit=None, max_backup_attempts=None,
                             max_iterations=None, trace_routing=True)
     stamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    files_per_pass = sum(len(glob.glob(os.path.join(d, "*.qasm"))) for _, d, *_ in BATCHES)
-    counter = {'done': 0, 'total': files_per_pass * len(VARIANTS)}
-    for pass_no, (suffix, arch_idx) in enumerate(VARIANTS, 1):
-        run_variant(config, suffix, arch_idx, stamp, pass_no, counter)
+    total = sum(len(glob.glob(os.path.join(cdir, label, "*.qasm")))
+                for _, cdir in VARIANTS for label, _ in BATCHES)
+    counter = {'done': 0, 'total': total}
+    for pass_no, (suffix, circuits_dir) in enumerate(VARIANTS, 1):
+        run_variant(config, suffix, circuits_dir, stamp, pass_no, counter)
 
 
 if __name__ == "__main__":
