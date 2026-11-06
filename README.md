@@ -1,4 +1,4 @@
-## Running the experiment
+## Running the experiment for BOLTSABRE
 
 The experiment in `code/experiments/` routes two sets of circuits on devices A–F:
 
