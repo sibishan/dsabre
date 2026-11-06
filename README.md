@@ -1,3 +1,61 @@
+## Running the experiment
+
+The experiment in `code/experiments/` routes two sets of circuits on devices A–F:
+
+- **Original circuits** (`code/experiments/data/in/circuits/`): each circuit declares only the qubits it uses.
+- **Padded circuits** (`code/experiments/data/in/circuits_alt/`): the same circuits with extra idle qubits declared,
+  so the router has as many qubits to work with as BOLTSABRE. The gates, and so the CX counts, are identical.
+
+Both sets have the same six groups, each routed on one device:
+
+| Group | Device | Cores |
+|---|---|---|
+| `qasm_25` | A | four 4×4 cores, ring |
+| `qasm_64` | B | four 5×5 cores, ring |
+| `qasm_80` | C | four 6×5 cores, ring |
+| `qasm_95` | D | six 5×5 cores, 2×3 core grid |
+| `qasm_200` | E | eight 7×5 cores, 2×4 core grid |
+| `qasm_360` | F | twelve 7×6 cores, 3×4 core grid |
+
+The devices are defined in `code/experiments/arch.py`.
+
+```bash
+pip install -r code/requirements.txt
+cd code/experiments
+python run.py
+```
+
+It runs the original circuits first, then the padded circuits, and writes one file for each
+to `code/experiments/data/out/`:
+
+- `dsabre_results_<date>_<time>.json`: original circuits
+- `dsabre_results_alt_<date>_<time>.json`: padded circuits
+
+For each circuit the file lists every seed's EPR count, SWAP count and
+validity check, plus the best seed.
+
+To change what runs, edit the top of `code/experiments/run.py`:
+
+- `BATCHES`: which circuit group runs on which device (comment out a row to skip it)
+- `VARIANTS`: which circuit sets run, in what order, and the output-file suffix for each
+- `NUM_SEEDS`: how many seeds to try per circuit
+- `RUN_DELAY_S`: pause in seconds between seeds (set to `0` to run faster)
+
+### Results and analysis
+
+`code/experiments/data/out/` holds four result files, one per router and circuit set:
+
+- `dsabre_results_base.json`: base router, original circuits
+- `dsabre_results_alt_base.json`: base router, padded circuits
+- `dsabre_results_bfsext.json`: BFSExt router, original circuits
+- `dsabre_results_alt_bfsext.json`: BFSExt router, padded circuits
+
+`code/experiments/data/out/analysis.ipynb` compares them in four tables, in the layout of the paper's
+Table III: the effect of padding on each router (I, II) and base vs BFSExt on the padded (III) and original (IV)
+circuits. Each table reports EPR and SWAP counts per circuit, with geometric means per group and over the whole suite.
+
+---
+
 # dSABRE
 
 A SABRE-style router for **multi-core distributed quantum computers**
@@ -32,34 +90,6 @@ python ablate_mech_rows.py           # Table IV, mechanism ablation
 
 Measurements in the paper ran single-threaded on an Apple M2, 16 GB,
 macOS 26.5, under Python 3.13 / Qiskit 2.3 / NetworkX 3.5.
-
-## Running the experiment
-
-The experiment in `code/experiments/` routes the circuits in
-`code/experiments/data/in/` on the devices A–F and their `_alt` versions.
-
-```bash
-pip install -r code/requirements.txt
-cd code/experiments
-python run.py
-```
-
-It runs twice: once on the main devices (A–F) and once on the `_alt` devices.
-Each run writes one file to `code/experiments/data/out/`:
-
-- `dsabre_results_<date>_<time>.json`: main devices
-- `dsabre_results_alt_<date>_<time>.json`: `_alt` devices
-
-For each circuit the file lists every seed's EPR count, SWAP count and
-validity check, plus the best seed.
-
-To change what runs, edit the top of `code/experiments/run.py`:
-
-- `BATCHES`: which circuit folder runs on which device (comment out a row to skip it)
-- `NUM_SEEDS`: how many seeds to try per circuit
-- `RUN_DELAY_S`: pause in seconds between seeds (set to `0` to run faster)
-
-The devices are defined in `code/experiments/arch.py`.
 
 ## What's in the box
 
