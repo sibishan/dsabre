@@ -42,6 +42,8 @@ BATCHES = [
     ("qasm_500", Architecture.G),
     ("qasm_1000", Architecture.H),
     ("qasm_1500", Architecture.I),
+    ("qasm_1000_extra", Architecture.H),
+    ("qasm_1500_extra", Architecture.I),
 ]
 # (output-file suffix, circuit-set directory), run in this order
 VARIANTS = [
